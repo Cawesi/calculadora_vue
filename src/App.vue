@@ -1,47 +1,73 @@
 <script setup>
-import HelloWorld from './components/HelloWorld.vue'
-import TheWelcome from './components/TheWelcome.vue'
+  import { reactive } from 'vue';
+  import HeaderTitle from './components/HeaderTitle.vue';
+  import CalcArea from './components/CalcArea.vue';
+
+  const estado = reactive({
+    erroCal: "Divisão por zero não permitida!",
+    operacao: { operador: 'soma', operadorSimbol: '+'},
+    numeros: { n1: "", n2: ""},
+
+    imgCal: {
+      multiplicacao: "*",
+      divisao: "/",
+      soma: "+",
+      subtracao: "-"
+    }
+  });
+
+  const opAtual = event => {
+    const operacao = event.target.value;
+    estado.operacao.operador = operacao;
+    estado.operacao.operadorSimbol = estado.imgCal[operacao];
+  }
+
+  const definirOperador = () => {
+    const tarefa = estado.operacao;
+    return tarefa.operadorSimbol;
+  };
+
+  const pegarN1 = event => {
+    const num1 = event.target.value;
+    estado.numeros.n1 = num1;
+  };
+
+  const pegarN2 = event => {
+    const num2 = event.target.value;
+    estado.numeros.n2 = num2;
+  };
+
+  const calcular = () => {
+    if (estado.numeros.n1 === "" && estado.numeros.n2 === "") {
+      return "";
+    } else if(estado.numeros.n1 >= 0 && estado.numeros.n2 == 0 && estado.operacao.operador == "divisao") {
+      return "";
+    } else {
+      return eval(`${estado.numeros.n1} ${estado.operacao.operadorSimbol} ${estado.numeros.n2}`);
+    }
+  };
+
+  const erroCalcular = () => {
+    if (estado.operacao.operador === "divisao") {
+      if (estado.numeros.n2 == 0) {
+        return estado.erroCal;
+      } else {
+        return "";
+      }  
+    } else {
+      return "";
+    }
+  }
+
 </script>
 
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125" />
+  
+  <div class="container">
 
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-    </div>
-  </header>
+    <HeaderTitle/>
+    <CalcArea :pegarOperacao="opAtual" :definirOperador="definirOperador()" :numero1="pegarN1" :numero2="pegarN2" :calcular="calcular()" :erroCalcular="erroCalcular()"/>
 
-  <main>
-    <TheWelcome />
-  </main>
+  </div>
+
 </template>
-
-<style scoped>
-header {
-  line-height: 1.5;
-}
-
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
-}
-
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
-}
-</style>
