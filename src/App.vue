@@ -59,6 +59,10 @@
     }
   }
 
+  const atualizaPagina = () => {
+    console.log("Página não atualizada!")
+  }
+
 </script>
 
 <template>
@@ -66,7 +70,7 @@
   <div class="container">
 
     <HeaderTitle/>
-    <CalcArea :pegarOperacao="opAtual" :definirOperador="definirOperador()" :numero1="pegarN1" :numero2="pegarN2" :calcular="calcular()" :erroCalcular="erroCalcular()"/>
+    <CalcArea :pegarOperacao="opAtual" :definirOperador="definirOperador()" :numero1="pegarN1" :numero2="pegarN2" :calcular="calcular()" :erroCalcular="erroCalcular()" :updatePage="atualizaPagina"/>
 
   </div>
 

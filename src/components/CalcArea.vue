@@ -1,10 +1,10 @@
 <script setup>
-    const props = defineProps(['pegarOperacao', 'definirOperador', 'numero1', 'numero2', 'calcular', 'erroCalcular']);
+    const props = defineProps(['pegarOperacao', 'definirOperador', 'numero1', 'numero2', 'calcular', 'erroCalcular', 'updatePage']);
 </script>
 
 <template>
     <div class="row mt-4">
-      <form class="form-control text-center py-4">
+      <form class="form-control text-center py-4"  @submit.prevent="props.updatePage">
         <input type="number" required class="me-2" placeholder="Insira o valor" @change="props.numero1">
         <span class="me-2">{{props.definirOperador}}</span>
         <input type="number" required class="me-4" placeholder="Insira o valor" @change="props.numero2">  
